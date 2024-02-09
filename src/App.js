@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import OpenAI from "openai";
+// import OpenAI from "openai";
 import './App.css';
 
-const openai = new OpenAI({ apiKey: "", dangerouslyAllowBrowser: true });
+// const openai = new OpenAI({ apiKey: "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", dangerouslyAllowBrowser: true });
 
-async function main() {
-  const image = await openai.images.generate({ model: "dall-e-3", prompt: "A cute baby sea otter" });
+// async function main() {
+//   const image = await openai.images.generate({ model: "dall-e-3", prompt: "A cute baby sea otter" });
 
-  console.log(image.data);
-}
-main();
+//   console.log(image.data);
+// }
+// main();
 const OPENAI_API_KEY = '';
 
 const API_ENDPOINT_URL = 'https://api.openai.com/v1/images/generations';
@@ -27,7 +27,7 @@ function App() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        prompt: "Generate a minimalist icon featuring a white figure to represent: " + productIdea,
+        prompt: "Create a vector icon reprsenting " + productIdea + "a minimilist, single color, line art style",
         n: 1,
         size: "256x256"
       })
@@ -88,13 +88,13 @@ function App() {
             />
           </form>
           {error && <p className="error">{error}</p>}
+          {iconImageUrl && (
+            <div className="generated-image">
+              <img src={iconImageUrl} alt="Generated Icon" />
+            </div>
+          )}
         </div>
-        {iconImageUrl && (
-          <div className="generated-image">
-            <h2>Generated Image</h2>
-            <img src={iconImageUrl} alt="Generated Icon" />
-          </div>
-        )}
+
       </div>
     </div>
   );

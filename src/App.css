@@ -32,36 +32,34 @@
 
 .input-container {
   margin-right: 10px;
+  padding: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #ffffff3b;
+  border-radius: 10px;
 }
 
 input[type="text"] {
-  width: 300px;
+  height: 70px;
   padding: 10px;
   margin-right: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-}
-
-button[type="submit"] {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
+  background-color: #ffffff00;
+  border-radius: 10px;
   border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
+  color: white;
+  font-size: 20px;
+  display: flex;
+  text-wrap: wrap;
 }
 
-button[type="submit"]:hover {
-  background-color: #0056b3;
-}
 
 .error {
   color: #dc3545;
   margin-top: 10px;
 }
 
-.generated-image {
-  margin-top: 20px;
+.generated-image img {
+  width: 80px;
+  border-radius: 10px;
 }
