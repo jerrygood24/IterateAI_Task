@@ -6,11 +6,12 @@
   font-weight: 900;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   height: 100vh;
   width: 100vw;
-  position: relative;
+  position: static;
+  font-family: cursive;
 }
 #visual{
   position: absolute;
@@ -27,10 +28,9 @@
 }
 
 .form-container {
-  display: flex;
   align-items: center;
   display: flex;
-  flex-direction: column; /* Change flex direction to column */
+  flex-direction: column;
 }
 
 .input-container {
@@ -41,6 +41,7 @@
   align-items: center;
   background-color: #ffffff3b;
   border-radius: 10px;
+  white-space: wrap;
 }
 
 input[type="text"] {
@@ -68,21 +69,29 @@ input[type="text"] {
 }
 
 .product-list {
-  background-color: rgba(255, 255, 255, 0.105);
-  padding: 20px;
-  border-radius: 10px;
+  margin: auto;
+  display: contents;
+  margin-top: 20px; /* Add margin-top for spacing */
+}
+
+.product-box {
+  background-color: #ffffff3b; /* Background color for the box */
+  border-radius: 10px; /* Rounded corners */
+  padding: 20px; /* Padding inside the box */
+  margin-bottom: 20px; /* Margin between boxes */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 80%;
 }
 
-.product-list h2 {
-  margin-bottom: 20px;
+.product-box h3 {
+  margin-bottom: 10px; /* Margin below the product name */
 }
 
-.product-list ul {
-  list-style-type: none;
-  padding: 0;
+.product-box ul {
+  list-style-type: none; /* Remove bullet points */
+  padding: 0; /* Remove default padding */
 }
 
-.product-list ul li {
-  margin-bottom: 10px;
+.product-box ul li {
+  margin-bottom: 5px; /* Margin between features */
 }
