@@ -1,29 +1,69 @@
 import React, { useState } from 'react';
-// import OpenAI from "openai";
 import './App.css';
 
-// const openai = new OpenAI({ apiKey: "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", dangerouslyAllowBrowser: true });
 
-// async function main() {
-//   const image = await openai.images.generate({ model: "dall-e-3", prompt: "A cute baby sea otter" });
+// const OPENAI_API_KEY = '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';
+// const OPENAI_API_KEY = process.env.API_KEY
 
-//   console.log(image.data);
-// }
-// main();
-const OPENAI_API_KEY = '';
-
-const API_ENDPOINT_URL = 'https://api.openai.com/v1/images/generations';
+const CHAT_API_ENDPOINT_URL = 'https://api.openai.com/v1/chat/completions';
+const IMAGE_API_ENDPOINT_URL = 'https://api.openai.com/v1/images/generations';
 
 function App() {
   const [productIdea, setProductIdea] = useState('');
   const [iconImageUrl, setIconImageUrl] = useState('');
+  const [productList, setProductList] = useState([]);
   const [error, setError] = useState(null);
+
+  const fetchProduct = async (productIdea) => {
+    const prompt = `Based on the product idea "${productIdea}", recommend product name as heading and key features of product on subsequent lines .`; // Adapt the prompt as needed
+
+    const options = {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.REACT_APP_APIKEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'gpt-3.5-turbo', // Adjust model based on your choices
+        messages: [
+          { role: 'system', content: 'You are a helpful AI assistant.' },
+          { role: 'user', content: prompt },
+        ],
+        temperature: 0.7, // Control response creativity; 0 is deterministic, 1 is most random
+        max_tokens: 150, // Maximum number of tokens to generate
+        n: 1, // Number of completions to generate
+      }),
+    };
+
+    try {
+      const response = await fetch(CHAT_API_ENDPOINT_URL, options);
+      const responseData = await response.json();
+
+      console.log('Response Data:', responseData);
+      if (responseData.choices && responseData.choices.length > 0) {
+        const completionMessage = responseData.choices[0].message.content;
+
+        if (completionMessage) {
+          const recommendations = completionMessage.trim();
+          setProductList([recommendations]);
+          console.log('Product Recommendations:', recommendations);
+        } else {
+          throw new Error('No completion message or text found in API response');
+        }
+      } else {
+        throw new Error('No choices found in API response');
+      }
+    } catch (error) {
+      console.error('Error fetching product recommendations:', error);
+      setError('Error generating product recommendations. Please try again later.');
+    }
+  };
 
   const fetchIconImage = async (productIdea) => {
     const options = {
       method: "POST",
       headers: {
-        'Authorization': `Bearer ${OPENAI_API_KEY}`,
+        'Authorization': `Bearer ${process.env.REACT_APP_APIKEY}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -33,7 +73,7 @@ function App() {
       })
     }
     try {
-      const response = await fetch(API_ENDPOINT_URL, options);
+      const response = await fetch(IMAGE_API_ENDPOINT_URL, options);
       const responseData = await response.json();
       console.log(responseData);
       if (responseData.data && responseData.data.length > 0) {
@@ -61,6 +101,8 @@ function App() {
 
     try {
       const iconImageText = await fetchIconImage(productIdea);
+      await fetchProduct(productIdea);
+
       if (iconImageText) {
         setIconImageUrl(iconImageText);
       }
@@ -87,12 +129,27 @@ function App() {
               onChange={handleInputChange}
             />
           </form>
-          {error && <p className="error">{error}</p>}
           {iconImageUrl && (
             <div className="generated-image">
               <img src={iconImageUrl} alt="Generated Icon" />
             </div>
           )}
+        </div>
+        <div className="product-list">
+          <h2>Product Recommendations</h2>
+          <ul>
+            {productList.map((product, index) => (
+              <li key={index}>
+                <h3>{product.split('\n')[0]}</h3> {/* Assuming the product name is on the first line */}
+                <ul>
+                  {product.split('\n').slice(1).map((feature, index) => (
+                    <li key={index}>{feature}</li> // Assuming the rest of the lines are features
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
+          {error && <p className="error">{error}</p>}
         </div>
 
       </div>

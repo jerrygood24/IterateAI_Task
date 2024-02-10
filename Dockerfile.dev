@@ -1,0 +1,7 @@
+FROM node:18-alpine
+WORKDIR /PRODUCT-IDEA1/
+COPY public/ /PRODUCT-IDEA1/public
+COPY src/ /PRODUCT-IDEA1/src
+COPY package.json /PRODUCT-IDEA1/
+RUN npm install
+CMD ["npm", "start"]
