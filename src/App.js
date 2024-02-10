@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
 
-
-// const OPENAI_API_KEY = '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';
-// const OPENAI_API_KEY = process.env.API_KEY
-
 const CHAT_API_ENDPOINT_URL = 'https://api.openai.com/v1/chat/completions';
 const IMAGE_API_ENDPOINT_URL = 'https://api.openai.com/v1/images/generations';
 
